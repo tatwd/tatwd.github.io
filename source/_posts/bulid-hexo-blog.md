@@ -37,7 +37,7 @@ tags:
 
 <!-- more -->
 
-windows环境下，启动命令行cmd，任意选择一个文件夹用来建立站点，然后：
+windows环境下，启动命令行cmd（Linux环境启动终端），任意选择一个文件夹用来建立站点，然后输入：
 
 ### 安装Hexo
 
@@ -50,7 +50,7 @@ $ npm npm install hexo-cli -g
 $ hexo init [site-name]
 ```
 
-> site-name： 站点文件夹名，可有可无。若加，则会在当前文件夹下新建一个以site-name命名的文件夹。比如：hexo init blog
+> site-name： 站点文件夹名，可有可无。若加，则会在当前文件夹下新建一个以site-name命名的文件夹（即`站点文件夹`）。比如：hexo init blog
 
 ### 安装依赖包
 
@@ -113,11 +113,11 @@ deploy:
   branch: master
 ```
 
-> 注意在`:`之后有一个空格，`username`改为你的用户名。
+> 注意在`:`之后有一个空格，`username`改为你的用户名，以下同。
 
 ### 开始部署
 
-如果在本地已启动了站点，则先关闭，然后在命令行cmd输入中：
+如果在本地已启动了站点，则先关闭，然后输入命令：
 
 ``` bash
 $ npm install hexo-deployer-git  #很重要
@@ -132,17 +132,28 @@ $ hexo deploy  #可简写：hexo d
 
 ## 简单管理
 
-### 写作
+### 平常写作
+
+进入站点文件夹，输入命令：
 
 ``` bash
 $ hexo new [layout] <title>
 ```
 
+写完之后保存，然后输入命令：
+
+``` bash
+$ hexo clean
+$ hexo g -d
+```
+
+此时，所写文章便被部署到Github上去了。
+
 > layout:page\post\draft，默认为post，详见[Hexo文档](https://hexo.io/zh-cn/docs/writing.html)。
 
-### 预防站点文件夹丢失
+### 管理站点文件
 
-为解决这个问题，我利用了Github的多分支来管理站点文件：
+如果本地站点文件丢失了或换了电脑怎么办？为解决这个问题，我们利用了Github的多分支来管理站点文件：
 
 1、用`master`分支来管理发布的文件，即`public/`下的文件；
 2、用`hexo`分支来管理主站点文件，即`public/`下和`.gitignore`忽视的其他文件；
@@ -152,7 +163,7 @@ $ hexo new [layout] <title>
 
 #### 建立远程仓库
 
-先将远程仓库关联到本地。进入站点文件夹，在命令行cmd中（或右键选择`Git Bash Here`）输入：
+先将远程仓库关联到本地。进入站点文件夹，输入命令：
 
 ``` bash
 $ git init
@@ -184,19 +195,24 @@ $ git commit -m "提交记录"
 $ git push -u origin hexo  #初次push要加-u
 ```
 
-> 输命令之前，查看主站点文件夹的`.gitignore`文件，是否忽略public文件夹，若无，添加`public/`。
+> 输命令之前，查看主站点文件夹的`.gitignore`文件，是否忽略public文件夹，若无，添加`public/`。另外，此方法在`下载主题`使用`法二`时有bug。
 
 ### 丢失后恢复
 
-1、使用`git clone git@github.com:username/username.github.io.git`拷贝仓库（默认分支为hexo）；
-2、在本地新拷贝的`username.github.io`文件夹下通过cmd（或Git bash）依次执行下列指令：
+1、使用`git clone`命令克隆站点仓库（默认分支为hexo）：
+
+``` bash
+$ git clone git@github.com:username/username.github.io.git
+```
+
+2、在本地新拷贝的`username.github.io`文件夹下依次执行命令：
 
 ``` bash
 $ npm install hexo-cli
 $ npm install
 $ npm install hexo-deployer-git
 ```
-> 记得，不需要`hexo init`这条指令。
+> 注意，此时不需要执行`hexo init`这条命令。
 
 到此，便完成了对站点的一些简单管理。
 
