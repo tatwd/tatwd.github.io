@@ -5,6 +5,7 @@ categories: 建站笔记
 tags:
   - Hexo
   - Blog
+  - Github
 ---
 本文是我建立这个博客的一些笔记。目的有三：一防忘记，二供参考，三作开篇。
 
