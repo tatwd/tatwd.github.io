@@ -8,7 +8,7 @@ tags:
 ---
 本文是我建立这个博客的一些笔记。目的有三：一防忘记，二供参考，三作开篇。
 
-![bulid-hexo-blog](/Resources/images/bulid-hexo-blog.jpg)
+![bulid-hexo-blog](/Resources/images/build-hexo-blog.jpg)
 
 ## 准备工作
 
