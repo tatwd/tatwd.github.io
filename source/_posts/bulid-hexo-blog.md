@@ -12,7 +12,7 @@ tags:
 
 ## 准备工作
 
-首先，先安装建立Hexo博客站点的依赖环境，即安装Node.js、Git以及Github上建立站点仓库。
+首先，先安装建立Hexo博客站点的依赖环境，即安装Node.js、Git以及在Github上建立站点仓库。
 
 ### 安装Node.js环境
 
@@ -27,22 +27,22 @@ tags:
 ### Github上建立站点仓库
 
 1、如果没有Github账户，先用邮箱在[Github](https://github.com)免费注册一个账户；
-2、创建一个仓库（repository），将其命名：`username.github.io`（username：账户名），比如我的站点仓库是：tatwd.github.io。
+2、创建一个仓库（repository），将其命名：`username.github.io`（username：账户名），比如：tatwd.github.io。
 
 ![new-site-repository](/Resources/images/new-site-repository.png)
 
-> 后面的站点就是部署在这个仓库上，以后访问博客只需在URL上输入`https://username.github.io`即可。
+> 后面的站点就是部署在这个仓库（即`站点仓库`）上，以后访问博客只需在URL上输入`https://username.github.io`即可。
 
 ## 本地建站
 
 <!-- more -->
 
-windows环境下，启动命令行cmd（Linux环境启动终端），任意选择一个文件夹用来建立站点，然后输入：
+准备工作完成后，便可以开始建立站点了。在windows环境下，启动命令行cmd（Linux环境启动终端），任意选择一个文件夹用来建立站点，然后输入命令：
 
 ### 安装Hexo
 
 ``` bash
-$ npm npm install hexo-cli -g
+$ npm install hexo-cli -g
 ```
 ### 初始化Hexo站点
 
@@ -50,7 +50,7 @@ $ npm npm install hexo-cli -g
 $ hexo init [site-name]
 ```
 
-> site-name： 站点文件夹名，可有可无。若加，则会在当前文件夹下新建一个以site-name命名的文件夹（即`站点文件夹`）。比如：hexo init blog
+> site-name： 站点文件夹名，可有可无。若加，则会在当前文件夹下新建一个以site-name命名的文件夹（即`站点文件夹`）。比如：输入`hexo init blog`后，当前文件夹会有一个叫`blog`文件夹。
 
 ### 安装依赖包
 
@@ -74,12 +74,12 @@ $ hexo server [--debug]  #--debug为调试模式，可有可无，可简写：he
 
 ### 下载主题
 
-法一：在Hexo官方网站上[下载](https://hexo.io/themes/),然后解压到站点文件夹下的`themes/`下。
-法二：使用`git clone [主题的GitHub仓库]`命令，将其克隆到`themes/`下即可。
+法一：在Hexo官方网站上[下载](https://hexo.io/themes/),然后解压到`站点文件夹`下的`themes`文件夹下，注意命名。
+法二：使用`git clone [主题的GitHub仓库]`命令，将其克隆到`themes`文件夹下即可，注意命名。
 
 ### 使用主题
 
-修改站点文件夹下的`_config.yml`（以下称之为`主站配置文件`）：把`theme: landscape`改为`#theme: next`。
+修改站点文件夹下的`_config.yml`（以下称之为`主站配置文件`）：把`theme: landscape`改为`theme: 主题文件夹名`。
 
 > 注意在`:`之后有一个空格。
 
@@ -93,7 +93,7 @@ $ hexo server [--debug]  #--debug为调试模式，可有可无，可简写：he
 
 ### 修改主站配置文件
 
-修改前：
+修改处前：
 
 ``` yml
 # Deployment
@@ -102,7 +102,7 @@ deploy:
   type:
 ```
 
-修改后：
+修改处后：
 
 ``` yml
 # Deployment
@@ -149,14 +149,14 @@ $ hexo g -d
 
 此时，所写文章便被部署到Github上去了。
 
-> layout:page\post\draft，默认为post，详见[Hexo文档](https://hexo.io/zh-cn/docs/writing.html)。
+> layout的值:page\post\draft，默认为post，详见[Hexo文档之写作](https://hexo.io/zh-cn/docs/writing.html)。
 
 ### 管理站点文件
 
 如果本地站点文件丢失了或换了电脑怎么办？为解决这个问题，我们利用了Github的多分支来管理站点文件：
 
 1、用`master`分支来管理发布的文件，即`public/`下的文件；
-2、用`hexo`分支来管理主站点文件，即`public/`下和`.gitignore`忽视的其他文件；
+2、用`hexo`分支来管理主站点文件，即除`public/`下和`.gitignore`忽视的其他文件；
 3、将`hexo`设为默认分支。
 
 为此，我们要：
@@ -187,19 +187,19 @@ $ git checkout -b hexo  #创建并切换到hexo分支
 
 #### 将主站点文件push到hexo分支
 
-在hexo分支下，输入命令：
+在hexo分支（使用`git branch`命令查看当前所在分支）下，输入命令：
 
 ``` bash
 $ git add .
 $ git commit -m "提交记录"
-$ git push -u origin hexo  #初次push要加-u
+$ git push -u origin hexo  #初次push要加-u，此后可省
 ```
 
-> 输命令之前，查看主站点文件夹的`.gitignore`文件，是否忽略public文件夹，若无，添加`public/`。另外，此方法在`下载主题`使用`法二`时有bug。
+> 输命令之前，查看`站点文件夹`下的`.gitignore`文件，是否忽略public文件夹，若无，则添加`public/`。另外，此方法在`下载主题`使用`法二`时似乎有bug。
 
-### 丢失后恢复
+### 本地站点恢复
 
-1、使用`git clone`命令克隆站点仓库（默认分支为hexo）：
+1、使用`git clone`命令克隆`站点仓库`（默认分支为hexo）：
 
 ``` bash
 $ git clone git@github.com:username/username.github.io.git
