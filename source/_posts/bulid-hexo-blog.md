@@ -1,5 +1,5 @@
 ---
-title: 利用Hexo框架在Github上建立静态个人博客网站
+title: 利用Hexo框架在Github上搭建静态个人博客网站
 date: 2017-06-14 19:18:31
 categories: 建站笔记
 tags:
