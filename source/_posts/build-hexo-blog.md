@@ -220,7 +220,7 @@ $ npm install hexo-deployer-git
 {% note danger %}
 
 本文作者：_king 
-本文链接：https://tatwd.github.io/2017/06/14/bulid-hexo-blog/
+本文链接：https://tatwd.github.io/2017/06/14/build-hexo-blog/
 版权声明：本博客所有文章除特别声明外，均采用 [CC BY-NC-SA 3.0 CN](https://creativecommons.org/licenses/by-nc-sa/3.0/cn/) 许可协议。转载请注明出处！
 
 {% endnote %}
