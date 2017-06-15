@@ -75,7 +75,7 @@ $ hexo server [--debug]  #--debug为调试模式，可有可无，可简写：he
 
 ### 下载主题
 
-法一：在Hexo官方网站上[下载](https://hexo.io/themes/),然后解压到`站点文件夹`下的`themes`文件夹下，注意命名。
+法一：在Hexo官方网站上[下载](https://hexo.io/themes/)，然后解压到`站点文件夹`下的`themes`文件夹下，注意命名。
 法二：使用`git clone [主题的GitHub仓库]`命令，将其克隆到`themes`文件夹下即可，注意命名。
 
 ### 使用主题
@@ -150,14 +150,14 @@ $ hexo g -d
 
 此时，所写文章便被部署到Github上去了。
 
-> layout的值:page\post\draft，默认为post，详见[Hexo文档之写作](https://hexo.io/zh-cn/docs/writing.html)。
+> layout的值：page\post\draft，默认为post，详见[Hexo文档之写作](https://hexo.io/zh-cn/docs/writing.html)。
 
 ### 管理站点文件
 
 如果本地站点文件丢失了或换了电脑怎么办？为解决这个问题，我们利用了Github的多分支来管理站点文件：
 
-1、用`master`分支来管理发布的文件，即`public/`下的文件；
-2、用`hexo`分支来管理主站点文件，即除`public/`下和`.gitignore`忽视的其他文件；
+1、用`master`分支来管理发布的文件，即`public`文件夹下的文件；
+2、用`hexo`分支来管理主站点文件，即除`public`下和`.gitignore`忽视的其他文件；
 3、将`hexo`设为默认分支。
 
 为此，我们要：
@@ -220,8 +220,8 @@ $ npm install hexo-deployer-git
 
 {% note danger %}
 
-本文作者：_king 
-本文链接：https://tatwd.github.io/2017/06/14/build-hexo-blog/
-版权声明：本博客所有文章除特别声明外，均采用 [CC BY-NC-SA 3.0 CN](https://creativecommons.org/licenses/by-nc-sa/3.0/cn/) 许可协议。转载请注明出处！
+**本文作者：** _king 
+**本文链接：** https://tatwd.github.io/2017/06/14/build-hexo-blog/
+**版权声明：** 本博客所有文章除特别声明外，均采用 [CC BY-NC-SA 3.0 CN](https://creativecommons.org/licenses/by-nc-sa/3.0/cn/) 许可协议。转载请注明出处！
 
 {% endnote %}
