@@ -141,7 +141,7 @@ $ hexo deploy  #可简写：hexo d
 $ hexo new [layout] <title>
 ```
 
-写完之后保存，然后输入命令：
+写完（Markdown语言写作，参考文章：[Markdown语法说明(简体中文版)](http://www.appinn.com/markdown/)）之后保存，然后输入命令：
 
 ``` bash
 $ hexo clean
