@@ -139,9 +139,8 @@ Step* SingleGame::getBestStep()
     steps.removeLast();
     
     fakeMove(step); //假想走棋
-
-    int score = getMinScore(_level - 1, maxScore);
-    unfakeMove(step);
+    int score = getMinScore(_level - 1, maxScore); //最小分
+    unfakeMove(step); //恢复
 
     if(score > maxScore)
     {
