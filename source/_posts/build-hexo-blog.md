@@ -9,7 +9,7 @@ tags:
 ---
 本文是我建立这个博客的一些笔记。目的有三：一防忘记，二供参考，三作开篇。
 
-![bulid-hexo-blog](/Resources/images/build-hexo-blog.jpg)
+{% asset_img build-hexo-blog.jpg bulid-hexo-blog %}
 
 ## 准备工作
 
@@ -30,7 +30,7 @@ tags:
 1、如果没有Github账户，先用邮箱在[Github](https://github.com)免费注册一个账户；
 2、创建一个仓库（repository），将其命名：`username.github.io`（username：账户名），比如：tatwd.github.io。
 
-![new-site-repository](/Resources/images/new-site-repository.png)
+{% asset_img new-site-repository.png new-site-repository %}
 
 > 后面的站点就是部署在这个仓库（即`站点仓库`）上，以后访问博客只需在URL上输入`https://username.github.io`即可。
 
@@ -184,7 +184,7 @@ $ git checkout -b hexo  #创建并切换到hexo分支
 
 在Github上的站点仓库上，点击`Settings`=>`Branches`，将Default branch切换成hexo，然后点击`Update`即可。
 
-![set-default-branch](/Resources/images/set-default-branch.png)
+{% asset_img set-default-branch.png set-default-branch %}
 
 #### 将主站点文件push到hexo分支
 
@@ -196,7 +196,7 @@ $ git commit -m "提交记录"
 $ git push -u origin hexo  #初次push要加-u，此后可省
 ```
 
-> 输命令之前，查看`站点文件夹`下的`.gitignore`文件，是否忽略public文件夹，若无，则添加`public/`。另外，此方法在`下载主题`使用`法二`时似乎有bug。
+> 输命令之前，查看`站点文件夹`下的`.gitignore`文件，是否忽略 public 文件夹，若无，则添加`public/`。另外，此方法在`下载主题`使用`法二`时似乎有bug。
 
 ### 本地站点恢复
 
@@ -216,12 +216,3 @@ $ npm install hexo-deployer-git
 > 注意，此时不需要执行`hexo init`这条命令。
 
 到此，便完成了对站点的一些简单管理。
-
-
-{% note danger %}
-
-**本文作者：** _king 
-**本文链接：** https://tatwd.github.io/2017/06/14/build-hexo-blog/
-**版权声明：** 本博客所有文章除特别声明外，均采用 [CC BY-NC-SA 3.0 CN](https://creativecommons.org/licenses/by-nc-sa/3.0/cn/) 许可协议。转载请注明出处！
-
-{% endnote %}

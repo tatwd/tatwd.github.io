@@ -12,7 +12,7 @@ timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://yoursite.com
+url: https://tatwd.github.io
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -34,7 +34,7 @@ titlecase: false # Transform title into titlecase
 external_link: true # Open external links in new tab
 filename_case: 0
 render_drafts: false
-post_asset_folder: false
+post_asset_folder: true
 relative_link: false
 future: true
 highlight:
@@ -79,3 +79,51 @@ search:
   field: post
   format: html
   limit: 10000
+
+# # hexo-neat
+# neat_enable: true
+
+# neat_html:
+#   enable: true
+#   exclude:
+
+# neat_css:
+#   enable: true
+#   exclude:
+#     - '*.min.css'
+
+# neat_js:
+#   enable: true
+#   mangle: true
+#   output:
+#   compress:
+#   exclude:
+#     - '*.min.js'
+
+# # hexo-html-minifier
+# html_minifier:
+#   exclude:
+
+# # hexo-beautify
+# beautify:
+#   types:
+#     - html
+#     - css
+#     - js
+#   exclude:
+#     - '*.min.css'
+#     - '*.min.js'
+#   html:
+#     'indent_inner_html': false
+#     'indent_size': 2
+#     'indent_with_tabs': false
+#     # More Options (https://github.com/beautify-web/js-beautify/blob/master/README.md)
+#   css:
+#     'indent_size': 2
+#     'newline_between_rules': true
+#     'indent_with_tabs': false
+#     # More Options (https://github.com/beautify-web/js-beautify/blob/master/README.md)
+#   js:
+#     'indent_size': 2
+#     'indent_with_tabs': false
+#     # More Options (https://github.com/beautify-web/js-beautify/blob/master/README.md) 

@@ -10,7 +10,7 @@ tags:
 ---
 打算写这个游戏的想法不是“蓄谋已久”的，它不过是为了完成作业而作出来的产物。虽然到目前为止，它还有许多的不足，但至少没有“胎死腹中”。（有兴趣的朋友可以下来玩玩：[点我下载](https://github.com/tatwd/watermelon-chess/raw/master/wiki-resources/downloads/watermelon-chess-1.6.1-install.exe)）
 
-![talk-wchess-0](/Resources/images/talk-wchess-0.png)
+{% asset_img talk-wchess-0.png talk-wchess-0 %}
 
 这种棋，是我小时候经常玩的，玩法大多是就地取材：在地上画个棋盘，以石头或树叶或树枝什么的为棋子，各6个。规则很简单：石头剪刀布决定谁现在走，每人轮流走一步，将对方棋子围死即可拿走，一方棋子数小于3个即输。像这类的棋，我小时候还玩过许多。
 
@@ -40,7 +40,7 @@ void Board::paintEvent(QPaintEvent *)
 
 然而，在绘制棋子时，我又遇到了一个严重的问题：坐标系的选择。刚开始，我用的是直角坐标系，发现能够把所有棋子都绘制出来，但棋子的遍历（包括棋盘上所点的遍历）却成了一个极大的问题。如果不解决话，后面的走棋、吃棋等都无法实现或者说很难实现。这个问题一度让我写不下去了（停了一个多礼拜）。后来突然有一天，脑子一抽，发现我的棋盘是一个关于中心对称的圆形啊，为什么不能用极坐标系呢？以棋盘中心为原点，只需要一个`极径`和一个`极角`就能确定棋盘上所有的点。
 
-![talk-wchess-1](/Resources/images/talk-wchess-1.png)
+{% asset_img talk-wchess-1.png talk-wchess-1 %}
 
 于是乎，遍历问题便不难了:
 
@@ -108,7 +108,7 @@ int Board::getSurroundStone(int id)
 
 也就是说，当单个棋子被对手棋子全包围时，它会判断为死子，然后“消失”；但是，2个或2个以上的情况不会。
 
-![talk-wchess-2](/Resources/images/talk-wchess-2.png)
+{% asset_img talk-wchess-2.png talk-wchess-2 %}
 
 ## 电脑走棋
 
@@ -161,11 +161,3 @@ Step* SingleGame::getBestStep()
 总而言之，从预期来说，大部分功能已经实现，目前还未解决的问题还有两个：1)死子判断算法的完善；2)价值评估算法的优化。以后有可能的话，希望能实现联机模式，但到底可不可能，谁知道呢？
 
 > 项目源代码： https://github.com/tatwd/watermelon-chess/tree/master/source
-
-{% note danger %}
-
-**本文作者：** _king 
-**本文链接：** https://tatwd.github.io/2017/06/17/talk-wchess/
-**版权声明：** 本博客所有文章除特别声明外，均采用 [CC BY-NC-SA 3.0 CN](https://creativecommons.org/licenses/by-nc-sa/3.0/cn/) 许可协议。转载请注明出处！
-
-{% endnote %}
