@@ -211,7 +211,6 @@ $ git clone git@github.com:username/username.github.io.git
 ``` bash
 $ npm install hexo-cli
 $ npm install
-$ npm install hexo-deployer-git
 ```
 > 注意，此时不需要执行`hexo init`这条命令。
 
