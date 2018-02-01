@@ -8,6 +8,7 @@ tags:
   - Qt
   - Game
 ---
+
 打算写这个游戏的想法不是“蓄谋已久”的，它不过是为了完成作业而作出来的产物。虽然到目前为止，它还有许多的不足，但至少没有“胎死腹中”。（有兴趣的朋友可以下来玩玩：[点我下载](https://github.com/tatwd/watermelon-chess/raw/master/wiki-resources/downloads/watermelon-chess-1.6.1-install.exe)）
 
 {% asset_img talk-wchess-0.png talk-wchess-0 %}

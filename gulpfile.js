@@ -1,6 +1,6 @@
 var gulp     = require('gulp');
 var htmlmin  = require('gulp-htmlmin');
-var htmlbtfy = require('gulp-html-beautify');
+var htmlBeautify = require('gulp-html-beautify');
 
 gulp.task('beautify:html', () => {
     return gulp.src('public/**/*.html')
@@ -9,7 +9,7 @@ gulp.task('beautify:html', () => {
             minifyJS: true,           // 压缩页面 Js
             minifyCSS: true           // 压缩页面 css
         }))
-        .pipe(htmlbtfy({
+        .pipe(htmlBeautify({
             indentSize: 2
         }))
         .pipe(gulp.dest('public/'));
