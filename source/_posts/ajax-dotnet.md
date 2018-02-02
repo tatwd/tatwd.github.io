@@ -14,6 +14,12 @@ tags:
 首先，我简单地将 AJAX 封装了一下（使用 ES6 标准）。
 
 ``` js
+/**
+ * @desc AJAX 的简单封装
+ * @param {String} url 请求路径 
+ * @param {Object} settings 参数配置
+ * @returns {Promise} 包含数据的 Promise 对象
+ */
 const ajax = function (url, settings) => {
   // set default values
   ({ 
@@ -76,3 +82,55 @@ const ajax = function (url, settings) => {
   });
 }
 ```
+
+这里主要应用了 Promise 对象对 AJAX 进行封装，使用起来较为简单。
+
+测试实例：
+
+``` js
+const dataHolder = document.querySelector('.data-holder');
+
+ajax('http://api.github.com/users')
+  .then(res => res.getJson())
+  .then(data => {
+    data.forEach(item => {
+      if(item.id <= 7){
+        dataHolder.innerHTML += `
+          { id:${item.id}, name:"${item.name}", type:"${item.type}" }<br>
+        `;
+      }
+    })
+  })
+  .catch(error => dataHolder.innerHTML = error);
+```
+
+<button class="btn">点击获取数据</button>
+<span class='data-holder'></span>
+<srcipt src="https://rawgit.com/tatwd/cdn-repo/master/ajax.js" async></script>
+<script>
+  const btn = document.querySelector('.btn');
+  const dataHolder = document.querySelector('.data-holder');
+  let isClicked = false;
+  btn.addEventListener('click', () => {
+    if(isClicked) {
+      dataHolder.innerHTML = '';
+    } else {
+      ajax('http://api.github.com/users')
+        .then(res => res.getJson())
+        .then(data => {
+          data.forEach(item => {
+            if(item.id <= 7){
+              dataHolder.innerHTML += `
+                { id:${item.id}, name:"${item.name}", type:"${item.type}" }<br>
+              `;
+            }
+          })
+        })
+        .catch(error => dataHolder.innerHTML = error);
+    }
+
+    isClicked = !isClicked;
+  });
+</script>
+
+> Update ...
