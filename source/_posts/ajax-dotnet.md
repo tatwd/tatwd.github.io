@@ -14,13 +14,65 @@ tags:
 首先，我简单地将 AJAX 封装了一下（使用 ES6 标准）。
 
 ``` js
-/**
- * @desc AJAX 的简单封装
- * @param {String} url 请求路径
- * @param {Object} settings 参数设置 
- */
-const ajax = (url, settings) => {
+const ajax = function (url, settings) => {
+  // set default values
+  ({ 
+    method = 'GET', 
+    responseType = '', 
+    header = {}, 
+    timeout = 0, 
+    isAsync = true 
+    data = null, 
+  } = settings || {});
 
+  // get XMLHttpRequest object
+  let getXhr = () => new XMLHttpRequest() || new ActiveXObject("Microsoft.XMLHTTP");
+
+  // use to format response data 
+  class DataFormator {
+    constructor(data) {
+      this._data = data;
+    }
+    
+    getJson () {
+      let __data = typeof this._data === 'object'
+        ? this._data
+        : JSON.parse(this._data);
+      
+      return __data === null
+        ? __data
+        : (__data.d && __data.d !== '' ? JSON.parse(__data.d) : __data);
+    }
+
+    getText () {
+      return this._data;
+    }
+
+    // add other format function here 
+  }
+
+  return new Promise((resolve, reject) => {
+    const xhr = getXhr();
+
+    xhr.open(method, url, isAsync);
+    
+    xhr.onreadystatechange = function () {
+      if (this.readyState !== 4) return;
+      
+      this.status === 200
+        ? resolve(new DataFormator(this.response))
+        : reject(new Error(this.statusText))
+    };
+
+    xhr.responseType = responseType;
+    xhr.timeout = timeout;
+
+    // set request header
+    for (let item in header) {
+      xhr.setRequestHeader(item, `application/${header[item]}`);
+    }
+
+    xhr.send(data);
+  });
 }
-
 ```
