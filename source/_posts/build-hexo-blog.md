@@ -15,6 +15,8 @@ tags:
 
 首先，先安装建立Hexo博客站点的依赖环境，即安装Node.js、Git以及在Github上建立站点仓库。
 
+<!-- more -->
+
 ### 安装Node.js环境
 
 参考文章：[W3Cschool上Node.js教程之Node.js安装配置](http://www.w3cschool.cn/nodejs/nodejs-install-setup.html)。
@@ -35,8 +37,6 @@ tags:
 > 后面的站点就是部署在这个仓库（即`站点仓库`）上，以后访问博客只需在URL上输入`https://username.github.io`即可。
 
 ## 本地建站
-
-<!-- more -->
 
 准备工作完成后，便可以开始建立站点了。在windows环境下，启动命令行cmd（Linux环境启动终端），任意选择一个文件夹用来建立站点，然后输入命令：
 
