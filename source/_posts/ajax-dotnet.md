@@ -77,7 +77,7 @@ const ajax = function (url, settings) => {
 
     // set request header
     for (let item in header) {
-      xhr.setRequestHeader(item, `application/${header[item]}`);
+      xhr.setRequestHeader(item, header[item]);
     }
 
     xhr.send(data);
@@ -90,7 +90,7 @@ const ajax = function (url, settings) => {
 ``` js
 // 方式一
 // 默认使用 GET 请求
-ajax('test.json')
+ajax(url)
   .then(res => res.getJson()) // or getText
   .then(data => {
     // code here ...
@@ -100,15 +100,7 @@ ajax('test.json')
   });
 
 // 方式二
-ajax('./Demo.aspx/ServerMethod', {
-  method: 'POST',
-  header: {
-    'content-type': 'json'
-  },
-  data: JSON.stringify({
-    id: 1
-  })
-})
+ajax(url, settings)
   .then(res => res.getJson()) // or getText
   .then(data => {
     // code here ...
@@ -118,4 +110,141 @@ ajax('./Demo.aspx/ServerMethod', {
   });
 ```
 
-> Update ...
+## 在 WEB FORMS 中
+
+在 ASP.NET Web Forms 中，虽然微软已经封装了一些 AJAX 控件（比如：UpdatePanel），并且在处理一些简单的业务时，已经可以满足要求，然而在处理复杂的业务时，这些控件就不显得那么便捷了，甚至可能出现一些问题。这个时候我们迫切需要一种方法：让我们在前台的 js 代码中使用 AJAX 方法向服务器来发送异步请求，然后服务器响应请求、发送数据，接着在客服端接收数剧并对其处理。那么如何实现呢？
+
+### 方式一
+
+新建一个 ASP.NET Web Forms 空网站，添加 2 个 Web 窗体页面（如：Client.aspx、Server.aspx）。
+
+Client.aspx
+``` html
+<form id="form1" runat="server">
+  <div>
+    <a id="btn">test btn</a>
+  </div>
+  <script src="js/ajax.js"></script>
+  <script>
+    document.querySelector('#btn').addEventListener('click', () => {
+      ajax('Server.aspx')
+        .then(res => res.getText())
+        .then(data => console.log(data))
+        .catch(err => console.log(err));
+    });
+  </script>
+</form>
+```
+
+Server.aspx.cs
+``` cs
+protected void Page_Load(object sender, EventArgs e) 
+{
+  GetData();
+}
+
+protected void GetData() 
+{
+  Response.Write("Hello World");
+  Response.End();
+}
+```
+
+在 Chrome 浏览器运行结果：
+
+{% asset_img first-way-1.png first-way-1 %}
+
+当然，我们也可以传递传参：
+
+Client.aspx
+``` js
+...
+ajax('Server.aspx?id=1')
+...
+```
+
+Server.aspx.cs
+``` cs
+protected void Page_Load(object sender, EventArgs e) 
+{
+  GetDataById();
+}
+
+protected void GetDataById() 
+{
+  string id = Request["id"];
+  Response.Write("ID" + id);
+  Response.End();
+}
+```
+
+在 Chrome 浏览器运行结果：
+
+{% asset_img first-way-2.png first-way-2 %}
+
+### 方式二
+
+使用 `Web Service` 属性来编写服务端代码。新建一个 ASP.NET Web Forms 空网站，添加 1 个 Web 窗体页面（如：Index.aspx）。
+
+Index.aspx
+``` html
+...
+<script>
+  document.querySelector('#btn').addEventListener('click', () => {
+    ajax('Index.aspx/GetData', {
+      method: 'POST',
+      header: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(res => res.getText())
+      .then(data => console.log(data))
+      .catch(err => console.log(err));
+  });
+</script>
+...
+```
+
+Index.aspx.cs
+``` cs
+[System.Web.Services.WebMethod]
+public static String GetData() {
+  return "Hello Ajax, I am from server!";
+}
+```
+
+在 Chrome 浏览器运行结果：
+
+{% asset_img second-way-1.png second-way-1 %}
+
+当然，也可以传参：
+
+Index.aspx
+``` js
+...
+ajax('Index.apsx/GetDataById', {
+  method: 'POST',
+  header: {
+    'Content-Type': 'application/json'
+  },
+  data: JSON.stringify({
+    id: 1
+  })
+})
+  .then(res => res.getJson())
+...
+```
+
+Index.aspx.cs
+``` cs
+[System.Web.Services.WebMethod]
+public static String GetDataById(int id) {
+  return "{\"id\": \"" + id +"\"}";
+}
+```
+
+在 Chrome 浏览器运行结果：
+
+{% asset_img second-way-2.png second-way-2 %}
+
+在实际开发中，服务器端要对数据进行序列化（比如 JSON 序列化），这样才能使前端开发变得更便捷。
