@@ -3,13 +3,15 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "dev": "hexo clean & hexo server --debug",
     "test": "hexo clean & hexo g & gulp",
-    "start": "hexo clean & hexo g & gulp & hexo d"
+    "build": "hexo clean & hexo g & gulp & hexo d"
   },
   "hexo": {
-    "version": "3.5.0"
+    "version": "3.7.1"
   },
   "dependencies": {
+    "ejs": "^2.5.5",
     "hexo": "^3.5.0",
     "hexo-deployer-git": "^0.3.1",
     "hexo-generator-archive": "^0.1.5",
