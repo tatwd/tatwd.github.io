@@ -22,16 +22,16 @@ tags:
  * @param {Object} settings 参数配置
  * @returns {Promise} 包含数据的 Promise 对象
  */
-const ajax = function (url, settings) => {
+const ajax = function (url, settings = {}) => {
   // set default values
-  ({ 
+  const { 
     method = 'GET', 
     responseType = '', 
     header = {}, 
     timeout = 0, 
     isAsync = true 
     data = null, 
-  } = settings || {});
+  } = settings;
 
   // get XMLHttpRequest object
   let getXhr = () => new XMLHttpRequest() || new ActiveXObject("Microsoft.XMLHTTP");
