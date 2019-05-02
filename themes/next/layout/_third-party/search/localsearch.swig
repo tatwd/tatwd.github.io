@@ -10,11 +10,22 @@
     var path = "{{ config.root }}" + search_path;
     // monitor main search box;
 
+    // 解决搜索弹框显示页面抖动问题
+    // 获取划条宽度
+    var scrollerWidth = window.innerWidth - $('body').outerWidth();
+
     function proceedsearch() {
       $("body")
         .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
         .css('overflow', 'hidden');
       $('.popup').toggle();
+
+      // 设置 padding-right
+      var siderbarWidth = $('body').css('padding-right').replace('px', '');
+      $('body').css('padding-right', Number(siderbarWidth) + scrollerWidth + 'px');
+      $('.sidebar-toggle').css('right', 30 + scrollerWidth + 'px');
+      $('#sidebar').css('right', scrollerWidth + 'px');
+
     }
     // search function;
     var searchFunc = function(path, search_id, content_id) {
@@ -119,6 +130,12 @@
       $('.popup').hide();
       $(".local-search-pop-overlay").remove();
       $('body').css('overflow', '');
+
+      // 重置 padding-right
+      var siderbarWidth = $('body').css('padding-right').replace('px', '');
+      $('body').css('padding-right', Number(siderbarWidth) - scrollerWidth + 'px');
+      $('.sidebar-toggle').css('right', '30px');
+      $('#sidebar').css('right', '0');
     });
     $('.popup').click(function(e){
       e.stopPropagation();
