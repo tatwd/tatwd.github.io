@@ -1,20 +1,18 @@
-var gulp     = require('gulp');
-var htmlmin  = require('gulp-htmlmin');
-var htmlBeautify = require('gulp-html-beautify');
+var gulp = require('gulp');
+var htmlmin = require('gulp-htmlmin');
 
-gulp.task('format:html', () => {
-    return gulp.src('public/**/*.html')
-        .pipe(htmlmin({
-            collapseWhitespace: true, // 压缩 html
-            minifyJS: true,           // 压缩页面 Js
-            minifyCSS: true           // 压缩页面 css
-        }))
-        // .pipe(htmlBeautify({
-        //     indentSize: 2
-        // }))
-        .pipe(gulp.dest('public/'));
-});
+function format(cb) {
+  gulp
+    .src('public/**/*.html')
+    .pipe(
+      htmlmin({
+        collapseWhitespace: true,
+        minifyJS: true,
+        minifyCSS: true
+      })
+    )
+    .pipe(gulp.dest('public/'));
+  cb();
+}
 
-gulp.task('default', ['format:html'], () => {
-    console.log('return 0');
-});
+exports.fmt = format;
