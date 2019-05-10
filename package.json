@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "hexo clean && hexo server --debug",
-    "test": "hexo clean && hexo generate && gulp fmt",
-    "build": "hexo clean && hexo generate && gulp fmt && hexo deploy"
+    "build": "hexo clean && hexo generate && gulp fmt",
+    "publish": "hexo clean && hexo generate && gulp fmt && hexo deploy"
   },
   "hexo": {
     "version": "3.8.0"
