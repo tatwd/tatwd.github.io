@@ -34,7 +34,8 @@ const ajax = function (url, settings = {}) => {
   } = settings;
 
   // get XMLHttpRequest object
-  let getXhr = () => new XMLHttpRequest() || new ActiveXObject("Microsoft.XMLHTTP");
+  let getXhr = () => 
+    new XMLHttpRequest() || new ActiveXObject("Microsoft.XMLHTTP");
 
   // use to format response data 
   class DataFormator {
