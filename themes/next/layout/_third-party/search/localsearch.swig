@@ -1,5 +1,35 @@
 {% if theme.local_search.enable %}
   <script type="text/javascript">
+  // 解决搜索弹框显示页面抖动问题
+  // 获取划条宽度
+  var $body = $('body')
+    , $sidebarToggle = $('.sidebar-toggle')
+    , $sidebar = $('#sidebar')
+    , scrollerWidth = window.innerWidth - $body.outerWidth()
+    , isShowed = false;
+
+  // 设置 right size
+  function _updateRightSize() {
+    var siderbarWidth = $body.css('padding-right').replace('px', '');
+    if (!isShowed) {
+      $body.css('padding-right', Number(siderbarWidth) + scrollerWidth + 'px');
+      $sidebarToggle.css('right', 30 + scrollerWidth + 'px');
+      $sidebar.css('right', scrollerWidth + 'px');
+    } else {
+      // reset to default
+      $body.css('padding-right', Number(siderbarWidth) - scrollerWidth + 'px');
+      $sidebarToggle.css('right', '30px');
+      $sidebar.css('right', '0');
+    }
+    isShowed = !isShowed;
+  }
+  $(document).on('keyup', function(evt) {
+    if (evt.keyCode === 27 && isShowed) {
+      _updateRightSize();
+    }
+  });
+  </script>
+  <script type="text/javascript">
     // Popup Window;
     var isfetched = false;
     // Search DB path;
@@ -9,24 +39,14 @@
     }
     var path = "{{ config.root }}" + search_path;
     // monitor main search box;
-
-    // 解决搜索弹框显示页面抖动问题
-    // 获取划条宽度
-    var scrollerWidth = window.innerWidth - $('body').outerWidth();
-
     function proceedsearch() {
       $("body")
         .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
         .css('overflow', 'hidden');
       $('.popup').toggle();
-
-      // 设置 padding-right
-      var siderbarWidth = $('body').css('padding-right').replace('px', '');
-      $('body').css('padding-right', Number(siderbarWidth) + scrollerWidth + 'px');
-      $('.sidebar-toggle').css('right', 30 + scrollerWidth + 'px');
-      $('#sidebar').css('right', scrollerWidth + 'px');
-
+      _updateRightSize();
     }
+
     // search function;
     var searchFunc = function(path, search_id, content_id) {
       'use strict';
@@ -131,11 +151,8 @@
       $(".local-search-pop-overlay").remove();
       $('body').css('overflow', '');
 
-      // 重置 padding-right
-      var siderbarWidth = $('body').css('padding-right').replace('px', '');
-      $('body').css('padding-right', Number(siderbarWidth) - scrollerWidth + 'px');
-      $('.sidebar-toggle').css('right', '30px');
-      $('#sidebar').css('right', '0');
+      // 重置 right size
+      _updateRightSize();
     });
     $('.popup').click(function(e){
       e.stopPropagation();
