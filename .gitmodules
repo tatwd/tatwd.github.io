@@ -1,0 +1,3 @@
+[submodule "themes/neat"]
+	path = themes/neat
+	url = https://github.com/tatwd/hexo-theme-neat.git
