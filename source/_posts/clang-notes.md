@@ -69,7 +69,29 @@ swap(&a, &b, sizeof(char *));
 
 函数指针扮演的实际上是回调函数的角色。JavaScript 充分发挥了这一特性。
 
+``` c
+/* 使用 cmp 控制升序、降序 */
+void sort(int arr[], int len, 
+          int (*cmp)(int, int)) 
+{
+    int i, j;
+    int cur;
+    for (i = 1; i < len; i++) {
+        cur = arr[i];
+        for (j = i - 1; j >= 0 && cmp(arr[j], cur); j--)
+            arr[j + 1] = arr[j];
+        arr[j + 1] = cur;
+    }
+}
+```
 
+上述程序中，可以在调用该排序函数时，进行具体的 `cmp` 绑定，从而让该排序函数具有升序和降序的可能性。
+
+## 结构体
+
+在我看来，C 语言中的结构体（struct）实际上是一些数据的容器。当对结构体进行地址空间的分配是按照成员变量的定义顺序进行的。
+
+TODO
 
 ## 栈和堆
 
