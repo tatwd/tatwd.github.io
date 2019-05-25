@@ -87,11 +87,78 @@ void sort(int arr[], int len,
 
 上述程序中，可以在调用该排序函数时，进行具体的 `cmp` 绑定，从而让该排序函数具有升序和降序的可能性。
 
-## 结构体
+倘若在一个结构体中定义一些系列的通用函数指针，对于不同的使用对象分别给出各自不同的实现，这样就可以实现面向接口化的编程，而这里的结构体又可以类比成一个**接口**。在 UNIX 操作系统中，`FILE` 这一结构就是这样设计的。
 
-在我看来，C 语言中的结构体（struct）实际上是一些数据的容器。当对结构体进行地址空间的分配是按照成员变量的定义顺序进行的。
+## 内存对齐
 
-TODO
+> 作者的机器是 64 位 Linux 系统，Intel x86 架构处理器
+
+内存[对齐](https://en.wikipedia.org/wiki/Data_structure_alignment)实际是因为 CPU 的寻址方式所造成的一种对内存分配的优化手段。例如，有些 CPU 每次只能对 4 的倍数的地址进行读取，即每次只能读取 4 Byte 大小的数据，倘若有数据分布于两段地址区间内，那么 CPU 对该数据的读取将花费 2 次进行（如图 2）。一般而言，经过对齐之后的程序的允许效率高于未作处理的程序。
+{% asset_img 2.png 图 2 %}
+
+在 C 语言中可以对内存对齐进行控制，特别是在结构体（`struct`）中进行这种处理是十分常见的。结构体实际上是一些数据的容器。当对结构体进行地址空间的分配时，实际将根据成员变量的类型及定义顺序进行，并按照默认的对齐方式对内存进行大小分配；成员变量定义的顺序不同，分配的大小可能不同。
+
+一个空的结构体 `sizeof` 得到的是 `0`（单位 Byte，即字节，下同）。
+
+```c
+struct person_t {
+    int id; /* 4 */
+    short age; /* 2 */
+    char *name; /* 8 */
+    char gender; /* 1 */
+};
+```
+
+理论上结构体 `struct person_t` 的内存分配的大小为 `4 + 2 + 8 + 1 = 15`，实际为 `24`。这是因为实际分配内存时，在 `age` 和 `name` 之间填充（Padding）了 2 Byte 大小的空间，在 `gender` 后填充了 7 Byte 大小的空间。
+
+既然如此，实际当中我们是可以利用这一特性对程序进行内存级别的优化，以减小对内存的占用。例如，针对上面的结构体，可以通过调整结构体中的成员变量的顺序以达到减小内存的目的。
+
+```c
+struct person_t {
+    int id; /* 4 */
+    short age; /* 2 */
+    char gender; /* 1 */
+    char *name; /* 8 */
+};
+```
+
+这样，将只在 `gender` 和 `name` 之间填充 1 Byte 的空间，从而使整个结构体占用的内存空间减小到 16 Byte。这在实际应用当中是极为可观的。
+
+因此，对结构体成员变量的定义顺序，一般都遵循着按[对齐长度](https://en.wikipedia.org/wiki/Data_structure_alignment#Typical_alignment_of_C_structs_on_x86)从小到大或从大到小的规则排列。
+
+那么，在其他的面向对象的语言里是否也会发生内存对齐？
+
+以 C# 为例，我分别对值类型（存栈上）的 `struct` 实例和引用类型（引用存栈上，数据存堆上）的 `class` 实例进行内存大小检测。
+
+```cs
+using System;
+using System.Runtime.InteropServices;
+
+struct Foo {
+    public int ID { set; get; }
+    public short Age { set; get; }
+    public char Gender { set; get; }
+    public string Name { set; get; }
+
+}
+
+[StructLayout(LayoutKind.Sequential)] // 使布局连续以支持 Marshal.SizeOf 调用
+class Bar {
+    public int ID { set; get; }
+    public short Age { set; get; }
+    public string Name { set; get; }
+    public char Gender { set; get; }
+}
+
+class Program {
+    static void Main(string[] args) {
+        Console.WriteLine(Marshal.SizeOf(new Foo())); // 16
+        Console.WriteLine(Marshal.SizeOf(new Bar())); // 24
+    }
+}
+```
+
+结果显示，未作优化 `Bar` 类实例的内存占用高于 `Foo` 结构体实例。但需要注意的是，实际开发中，对类实例的内存对齐优化将交由 .NET 平台来完成。同理，在 JVM 中也是如此。
 
 ## 栈和堆
 
