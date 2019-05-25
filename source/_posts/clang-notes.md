@@ -139,7 +139,6 @@ struct Foo {
     public short Age { set; get; }
     public char Gender { set; get; }
     public string Name { set; get; }
-
 }
 
 [StructLayout(LayoutKind.Sequential)] // 使布局连续以支持 Marshal.SizeOf 调用
@@ -162,7 +161,39 @@ class Program {
 
 ## 栈和堆
 
-TODO
+这里讲的栈和堆指的是内存模型，而不是数据结构，虽然它们彼此具有相似的特性。在 C 中，存储区主要分为栈区、堆区、数据区和代码区。
+
+在内存中，堆区位于内存的底部（低地址区），而栈区位于内存的顶部（高地址区）。
+
+对一个程序来说，每个子程序（即函数）根据都会在内存中分配一个栈桢（Sack Frame），这些栈桢将会组成一个[调用栈](https://en.wikipedia.org/wiki/Call_stack)（Call Stack）。栈桢的内存分配是根据彼此之间的调用关系，从栈区的顶部向低地址区进行分配的。栈桢的内存在到它调用完成后就被释放回收。
+
+```c
+void sub2()
+{
+    int baz = 3;
+}
+
+void sub1()
+{
+    int bar = 2;
+    sub2();
+}
+
+int main(void)
+{
+    int foo = 1;
+    sub1();
+    return 0;
+}
+```
+
+对于上述程序，将在内存中形成如下图所示的栈桢。`main` 函数将首先分配栈桢，之后依次是 `sub1`、`sub2`；然后当 `sub2` 调用结束后，其内存将会被立刻回收，之后回到 `sub1` 中继续执行，并最终回到 `main` 函数中，直到结束整个调用。这其实可以说是对栈的特性 LIFO（后进先出） 的一种应用。
+
+{% asset_img 3.png 图 3 %}
+
+当然，对于每个栈桢内部而言，将对函数的参数列表、返回地址、局部变量等，按内存地址由低向高的顺序进行分配。这与堆区的内存分配是相同的。
+
+栈的生存期是跟随整个程序进程的，而栈是运行时（Runtime）的。
 
 ## 进程和线程
 
