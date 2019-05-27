@@ -1,5 +1,5 @@
 ---
-title: C 语言拾遗
+title: 从 C 语言到程序的一般性问题讨论
 date: 2019-05-24 00:06:21
 tags:
 ---
@@ -200,5 +200,7 @@ int main(void)
 进程（Process）在 Linux 中实际上也是一种文件。
 
 ## 套接字
+
+{% asset_img 4.png 图 4 %}
 
 TODO
