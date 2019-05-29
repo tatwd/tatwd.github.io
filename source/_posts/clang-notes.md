@@ -203,7 +203,7 @@ int main(void)
 
 对于一个 CPU 而言，进程的处理是每个时刻只能处理一个进程的任务，但进程却是可以同时存在的。CPU 通过进行进程上下文的快速切换（时间极快）来实现同时执行的效果。线程的并行执行实际也是依赖于 CPU 对线程上下文的快速切换，当然对于多核 CPU 而言，可以将其分配到不同的内核进行处理。
 
-{% asset_img 6.svg Multithreaded_process %}
+<img src="{% asset_path 6.svg %}" alt="Multithreaded_process" width="240">
 
 每一个进程的资源是独立分配的，它们相互之间是无法直接访问的。同一进程内的线程共享进程的资源。
 
