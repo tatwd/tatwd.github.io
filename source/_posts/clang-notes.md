@@ -6,7 +6,7 @@ tags:
 
 C 是我学的第一门程序语言，也是让我认识和接触计算机、软件开发的开始。至今想来，我的思维有时侯其实存在的最多的还是面向过程的。
 
-C 的标准：C89，C90，C99，C11。其中，C89、C90 标准相同，又称 ASCI C；C99 应用最广,我当时学的就算这个标准。
+常见的 C 的标准：C89，C90，C99，C11。其中，C89、C90 标准相同，又称 ASCI C；C99 应用最广,我当时学的就算这个标准。
 
 在这里，我想将后来学习的 C++、C#、Java、JavaScript 统称为“C 系语言”。虽然它们与 C 是如此的不同。
 
@@ -30,7 +30,7 @@ int foo = 65540;
 void *bar = foo;
 short baz = (short)bar; /* 4 */
 ```
-这是因为在 C 语言中，类型转换是根据类型的大小重新对内存进行规划的（如图 1）。毫无疑问，在其它的语言当中亦是如此。空指针的大小根据操作系统的位数来决定（包括其它类型的指针），一般是 32 bit 系统是 4 Byte，64bit系统是 8 Byte。
+这是因为在 C 语言中，类型转换是根据类型的大小重新对内存进行规划的（如图 1）。毫无疑问，在其它的语言当中亦是如此（基本值类型）。空指针的大小根据操作系统的位数来决定（包括其它类型的指针），一般是 32 bit 系统是 4 Byte，64bit系统是 8 Byte。
 
 {% asset_img 1.png 图 1 %}
 
@@ -207,6 +207,66 @@ int main(void)
 
 每一个进程的资源是独立分配的，它们相互之间是无法直接访问的。同一进程内的线程共享进程的资源。
 
+在 Linux 系统中，对进程的管理有两个特殊的函数： `fork()` 和 `vfork()`。前者创建一个子进程，后者创建一个阻塞（Block）父进程的子进程。这两个函数会造成进程发生像细胞一样的分裂，且每次子进程都会继承父进程的资源，并自分裂处继续执行。
+
+```c
+#include <stdio.h>
+#include <unistd.h>
+
+int main(void)
+{
+    pid_t pid = fork();
+    printf("Hello, my pid is %d.\n", pid);
+    return 0;
+}
+```
+
+上述的代码可能的输出：
+
+```bash
+Hello, my pid is 22715.
+Hello, my pid is 0.
+```
+
+在 C 中进行线程编程使用的接口是 POSIX 或 Pthreads，这是由 [IEEE POSIX 1003.1c](http://www.unix.org/version3/ieee_std.html) 标准进行规定的。利用 `pthread.h` 头文件可以实现对线程的基本管理。
+
+```c
+#include <stdio.h>
+#include <pthread.h>
+
+void *print_hello(void *arg)
+{
+    long tid;
+    tid = (long)arg; /* 获取线程 ID */
+    printf("Thread #%ld: Hello World!\n", tid);
+    pthread_exit(NULL);
+}
+
+int main(void)
+{
+    pthread_t thread;
+    int result;
+    long tid;
+
+    tid = 1; /* 指定一个线程 ID */
+    printf("In main: creating a thread %ld\n", tid);
+    result = pthread_create(&thread, NULL, print_hello, (void *)tid);
+    if (result) {
+        printf("ERROR: code from pthread_create() is %d\n", result);
+        return -1;
+    }
+
+    /* Last thing that main() should do */
+    pthread_exit(NULL);
+}
+```
+
+编译时，需要使用 `-lpthread` 进行链接。
+
+> 更新中 ...
+
+<!--
+
 TODO
 
 ## 套接字
@@ -214,3 +274,9 @@ TODO
 {% asset_img 4.png 图 5 %}
 
 TODO
+
+参考资料
+
+[1] Blaise Barney, Lawrence Livermore National Laboratory. _[POSIX Threads Programming](https://computing.llnl.gov/tutorials/pthreads/)_
+
+-->
