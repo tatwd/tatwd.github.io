@@ -93,22 +93,14 @@ const ajax = function (url, settings = {}) => {
 // 默认使用 GET 请求
 ajax(url)
   .then(res => res.getJson()) // or getText
-  .then(data => {
-    // code here ...
-  })
-  .catch(error => {
-    // code here ...
-  });
+  .then(data => { /* code here ... */ })
+  .catch(error => { /* code here ... */ });
 
 // 方式二
 ajax(url, settings)
   .then(res => res.getJson()) // or getText
-  .then(data => {
-    // code here ...
-  })
-  .catch(error => {
-    // code here ...
-  });
+  .then(data => { /* code here ... */ })
+  .catch(error => { /* code here ... */ });
 ```
 
 ## 在 WEB FORMS 中
