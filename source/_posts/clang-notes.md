@@ -264,20 +264,14 @@ int main(void)
 
 编译时，需要使用 `-lpthread` 进行链接。
 
-> 更新中 ...
-
-<!--
-
-TODO
-
 ## 套接字
+
+套接字是一中特殊的文件。为解决进程间的通讯而生。
 
 {% asset_img 4.png 图 5 %}
 
-TODO
+> 更新中 ...
 
 参考资料
 
 [1] Blaise Barney, Lawrence Livermore National Laboratory. _[POSIX Threads Programming](https://computing.llnl.gov/tutorials/pthreads/)_
-
--->
