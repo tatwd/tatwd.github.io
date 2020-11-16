@@ -71,8 +71,7 @@ swap(&a, &b, sizeof(char *));
 
 ``` c
 /* 使用 cmp 控制升序、降序 */
-void sort(int arr[], int len, 
-          int (*cmp)(int, int)) 
+void sort(int arr[], int len, int (*cmp)(int, int)) 
 {
     int i, j;
     int cur;
@@ -135,23 +134,28 @@ struct person_t {
 using System;
 using System.Runtime.InteropServices;
 
-struct Foo {
+struct Foo 
+{
     public int ID { set; get; }
     public short Age { set; get; }
     public char Gender { set; get; }
     public string Name { set; get; }
 }
 
-[StructLayout(LayoutKind.Sequential)] // 使布局连续以支持 Marshal.SizeOf 调用
-class Bar {
+// 使布局连续以支持 Marshal.SizeOf 调用
+[StructLayout(LayoutKind.Sequential)] 
+class Bar 
+{
     public int ID { set; get; }
     public short Age { set; get; }
     public string Name { set; get; }
     public char Gender { set; get; }
 }
 
-class Program {
-    static void Main(string[] args) {
+class Program 
+{
+    static void Main(string[] args) 
+    {
         Console.WriteLine(Marshal.SizeOf(new Foo())); // 16
         Console.WriteLine(Marshal.SizeOf(new Bar())); // 24
     }
