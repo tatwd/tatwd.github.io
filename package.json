@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "hexo clean && hexo server --debug",
     "build": "hexo clean && hexo generate && gulp fmt",
-    "publish": "hexo clean && hexo generate && gulp fmt && hexo deploy"
+    "deploy": "hexo clean && hexo generate && gulp fmt && hexo deploy"
   },
   "hexo": {
     "version": "4.2.0"
