@@ -130,7 +130,7 @@ struct person_t {
 
 以 C# 为例，我分别对值类型（存栈上）的 `struct` 实例和引用类型（引用存栈上，数据存堆上）的 `class` 实例进行内存大小检测。
 
-```cs
+```csharp
 using System;
 using System.Runtime.InteropServices;
 

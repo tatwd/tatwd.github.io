@@ -130,7 +130,7 @@ Client.aspx
 ```
 
 Server.aspx.cs
-``` cs
+``` csharp
 protected void Page_Load(object sender, EventArgs e) 
 {
   GetData();
@@ -157,7 +157,7 @@ ajax('Server.aspx?id=1')
 ```
 
 Server.aspx.cs
-``` cs
+``` csharp
 protected void Page_Load(object sender, EventArgs e) 
 {
   GetDataById();
@@ -199,7 +199,7 @@ Index.aspx
 ```
 
 Index.aspx.cs
-``` cs
+``` csharp
 [System.Web.Services.WebMethod]
 public static String GetData() {
   return "Hello Ajax, I am from server!";
@@ -229,7 +229,7 @@ ajax('Index.apsx/GetDataById', {
 ```
 
 Index.aspx.cs
-``` cs
+``` csharp
 [System.Web.Services.WebMethod]
 public static String GetDataById(int id) {
   return "{\"id\": \"" + id +"\"}";
