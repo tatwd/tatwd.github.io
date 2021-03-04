@@ -27,5 +27,5 @@ EVAL 脚本代码 键个数 键1 [键2 ...] 参数1 [参数2 ...]
 
 参考资料
 
-[1] _[Redis Lua scripting](https://redis.io/commands/eval)_
-[2] _[Redis transactions](https://redis.io/topics/transactions)_
+- [1] _[Redis Lua scripting](https://redis.io/commands/eval)_
+- [2] _[Redis transactions](https://redis.io/topics/transactions)_
