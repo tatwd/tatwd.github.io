@@ -274,8 +274,7 @@ int main(void)
 
 {% asset_img 4.png 图 5 %}
 
-> 更新中 ...
 
-参考资料
+## 参考资料
 
-[1] Blaise Barney, Lawrence Livermore National Laboratory. _[POSIX Threads Programming](https://computing.llnl.gov/tutorials/pthreads/)_
+1. Blaise Barney, Lawrence Livermore National Laboratory. _[POSIX Threads Programming](https://computing.llnl.gov/tutorials/pthreads/)_
