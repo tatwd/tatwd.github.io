@@ -141,4 +141,28 @@
 <span class="token operator">...</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>Index.aspx.cs</p><pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token punctuation">[</span><span class="token attribute"><span class="token class-name">System<span class="token punctuation">.</span>Web<span class="token punctuation">.</span>Services<span class="token punctuation">.</span>WebMethod</span></span><span class="token punctuation">]</span>
 <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token return-type class-name">String</span> <span class="token function">GetDataById</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">int</span></span> id<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
   <span class="token keyword">return</span> <span class="token string">"&#123;\"id\": \""</span> <span class="token operator">+</span> id <span class="token operator">+</span><span class="token string">"\"&#125;"</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre><p>在 Chrome 浏览器运行结果：</p><img src="/2018/02/01/ajax-dotnet/second-way-2.png" class="" title="second-way-2"><p>在实际开发中，服务器端要对数据进行序列化（比如 JSON 序列化），这样才能使前端开发变得更便捷。</p></div><script>document.querySelector(".post__content").addEventListener("click",function(e){var t=e.target,n=t.id;"H2"===t.nodeName&&n&&(location.hash="#"+n)})</script></div><hr style="border:1px dashed #eee"><div class="post--comment"></div></div></div></div></div></body></html>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre><p>在 Chrome 浏览器运行结果：</p><img src="/2018/02/01/ajax-dotnet/second-way-2.png" class="" title="second-way-2"><p>在实际开发中，服务器端要对数据进行序列化（比如 JSON 序列化），这样才能使前端开发变得更便捷。</p></div><script>document.querySelector(".post__content").addEventListener("click",function(e){var t=e.target,n=t.id;"H2"===t.nodeName&&n&&(location.hash="#"+n)})</script></div><hr style="border:1px dashed #eee"><div class="post--comment"></div><script type="x/template" id="comment-tmpl"><form>
+      <p class="tip">加 * 为必填项，其中您输入的邮箱将不会公开！</p>
+      <p>
+        <label class="inline-block mb1">评论*</label>
+        <textarea name="html_text" rows="4" class="block w100"></textarea>
+      </p>
+      <div class="clearfix">
+        <p class="float--left w50 border-box" style="padding-right:5px;">
+          <label class="inline-block mb1">昵称*</label>
+          <input type="text" name="owner_name" class="block w100">
+        </p>
+        <p class="float--left w50 border-box" style="padding-left:5px;">
+          <label class="inline-block mb1">邮箱*</label>
+          <input type="email" name="owner_email" class="block w100">
+        </p>
+      </div>
+      <p>
+        <label class="inline-block mb1">网址</label>
+        <input type="text" name="owner_website" class="block w100">
+      </p>
+      <p class="text-right"><button id="submitCommentBtn">发表评论</button></p>
+    </form>
+    <div class="comments">
+      <!-- render comments here -->
+    </div></script><script src="/js/talking.dev.js"></script><script>window.hexoThemeConfig={comment_sys_api:"https://www.sondge.club/tatwd/api/comments"}</script><script src="/js/post.js"></script></div></div></div></div></body></html>

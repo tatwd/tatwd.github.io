@@ -17,4 +17,28 @@ hexo g -d<span aria-hidden="true" class="line-numbers-rows"><span></span><span><
 <span class="token function">git</span> pull<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre><blockquote><p>参考文章：<a target="_blank" rel="noopener" href="http://www.w3cschool.cn/git/git-remote-repo.html">W3Cschool 上 Git 教程之 Git 远程仓库</a>。</p></blockquote><h4 id="创建-hexo-分支"><a href="#创建-hexo-分支" class="headerlink" title="创建 hexo 分支"></a>创建 hexo 分支</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> checkout -b hexo  <span class="token comment">#创建并切换到 hexo 分支</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><h4 id="将-hexo-设为默认分支"><a href="#将-hexo-设为默认分支" class="headerlink" title="将 hexo 设为默认分支"></a>将 hexo 设为默认分支</h4><p>在 GitHub 上的站点仓库上，点击<code>Settings</code>=&gt;<code>Branches</code>，将 Default branch 切换成 hexo，然后点击<code>Update</code>即可。</p><img src="/2017/06/14/build-hexo-blog/set-default-branch.png" class="" title="set-default-branch"><h4 id="将主站点文件-push-到-hexo-分支"><a href="#将主站点文件-push-到-hexo-分支" class="headerlink" title="将主站点文件 push 到 hexo 分支"></a>将主站点文件 push 到 hexo 分支</h4><p>切换到 hexo 分支（使用<code>git branch</code>命令查看当前所在分支）下，输入命令：</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> <span class="token function">add</span> <span class="token builtin class-name">.</span>
 <span class="token function">git</span> commit -m <span class="token string">"提交记录"</span>
 <span class="token function">git</span> push -u origin hexo  <span class="token comment">#初次push要加-u，此后可省</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre><blockquote><p>输命令之前，查看<code>站点文件夹</code>下的<code>.gitignore</code>文件，是否忽略 public 文件夹，若无，则添加<code>public/</code>。另外，此方法在<code>下载主题</code>使用<code>法二</code>时似乎有bug。</p></blockquote><h3 id="本地站点恢复"><a href="#本地站点恢复" class="headerlink" title="本地站点恢复"></a>本地站点恢复</h3><p>1、使用<code>git clone</code>命令克隆<code>站点仓库</code>（默认分支为hexo）：</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> clone git@github.com:username/username.github.io.git<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>2、在本地新拷贝的<code>username.github.io</code>文件夹下依次执行命令：</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">npm</span> <span class="token function">install</span> hexo-cli
-<span class="token function">npm</span> <span class="token function">install</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre><blockquote><p>注意，此时不需要执行<code>hexo init</code>这条命令。</p></blockquote><p>到此，便完成了对站点的一些简单管理。</p><h3 id="关于域名配置的问题"><a href="#关于域名配置的问题" class="headerlink" title="关于域名配置的问题"></a>关于域名配置的问题</h3><p>在 GitHub 上，站点仓库是支持域名配置的。具体见参考链接，这里需要注意的是，之前看到有人采用的是在域名提供商的后台通过添加 A 记录的方式进行配置的，这在 GitHub 上会被提示警告，建议改成通过添加 CNAME 记录进行配置。</p><blockquote><p>参考：<a target="_blank" rel="noopener" href="https://docs.github.com/cn/free-pro-team@latest/github/working-with-github-pages/configuring-a-custom-domain-for-your-github-pages-site">配置 GitHub Pages 站点的自定义域</a></p></blockquote></div><script>document.querySelector(".post__content").addEventListener("click",function(e){var t=e.target,n=t.id;"H2"===t.nodeName&&n&&(location.hash="#"+n)})</script></div><hr style="border:1px dashed #eee"><div class="post--comment"></div></div></div></div></div></body></html>
+<span class="token function">npm</span> <span class="token function">install</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre><blockquote><p>注意，此时不需要执行<code>hexo init</code>这条命令。</p></blockquote><p>到此，便完成了对站点的一些简单管理。</p><h3 id="关于域名配置的问题"><a href="#关于域名配置的问题" class="headerlink" title="关于域名配置的问题"></a>关于域名配置的问题</h3><p>在 GitHub 上，站点仓库是支持域名配置的。具体见参考链接，这里需要注意的是，之前看到有人采用的是在域名提供商的后台通过添加 A 记录的方式进行配置的，这在 GitHub 上会被提示警告，建议改成通过添加 CNAME 记录进行配置。</p><blockquote><p>参考：<a target="_blank" rel="noopener" href="https://docs.github.com/cn/free-pro-team@latest/github/working-with-github-pages/configuring-a-custom-domain-for-your-github-pages-site">配置 GitHub Pages 站点的自定义域</a></p></blockquote></div><script>document.querySelector(".post__content").addEventListener("click",function(e){var t=e.target,n=t.id;"H2"===t.nodeName&&n&&(location.hash="#"+n)})</script></div><hr style="border:1px dashed #eee"><div class="post--comment"></div><script type="x/template" id="comment-tmpl"><form>
+      <p class="tip">加 * 为必填项，其中您输入的邮箱将不会公开！</p>
+      <p>
+        <label class="inline-block mb1">评论*</label>
+        <textarea name="html_text" rows="4" class="block w100"></textarea>
+      </p>
+      <div class="clearfix">
+        <p class="float--left w50 border-box" style="padding-right:5px;">
+          <label class="inline-block mb1">昵称*</label>
+          <input type="text" name="owner_name" class="block w100">
+        </p>
+        <p class="float--left w50 border-box" style="padding-left:5px;">
+          <label class="inline-block mb1">邮箱*</label>
+          <input type="email" name="owner_email" class="block w100">
+        </p>
+      </div>
+      <p>
+        <label class="inline-block mb1">网址</label>
+        <input type="text" name="owner_website" class="block w100">
+      </p>
+      <p class="text-right"><button id="submitCommentBtn">发表评论</button></p>
+    </form>
+    <div class="comments">
+      <!-- render comments here -->
+    </div></script><script src="/js/talking.dev.js"></script><script>window.hexoThemeConfig={comment_sys_api:"https://www.sondge.club/tatwd/api/comments"}</script><script src="/js/post.js"></script></div></div></div></div></body></html>
