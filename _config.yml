@@ -80,7 +80,7 @@ theme: neat
 deploy:
   type: git
   repo: git@github.com:tatwd/tatwd.github.io.git
-  branch: master
+  branch: gh-pages
 
 #Search
 search:
