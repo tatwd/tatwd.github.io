@@ -7,28 +7,4 @@
   redis<span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span><span class="token string">'expire'</span><span class="token punctuation">,</span> key<span class="token punctuation">,</span> seconds<span class="token punctuation">)</span>
 <span class="token keyword">end</span>
 
-<span class="token keyword">return</span> count<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>从这个例子可以看出，Lua 脚本在此时扮演的角色实际上等同于一个“函数”，对这段脚本的执行就相当于在执行一个“函数”，所不同于一般函数的是 Redis 保证其执行具有了原子性。</p><p>但需要注意的是，尽量不要在脚本中执行大量耗时的操作（如 <code>keys *</code>），否则可能会对其他 client 造成一定影响。</p><h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol><li><a target="_blank" rel="noopener" href="https://redis.io/commands/eval">Redis Lua scripting</a></li><li><a target="_blank" rel="noopener" href="https://redis.io/topics/transactions">Redis transactions</a></li><li><a target="_blank" rel="noopener" href="http://www.lua.org/manual/5.1/">Lua 5.1 Reference Manual</a></li></ol></div><script>document.querySelector(".post__content").addEventListener("click",function(e){var t=e.target,n=t.id;"H2"===t.nodeName&&n&&(location.hash="#"+n)})</script></div><hr style="border:1px dashed #eee"><div class="post--comment"></div><script type="x/template" id="comment-tmpl"><form>
-      <p class="tip">加 * 为必填项，其中您输入的邮箱将不会公开！</p>
-      <p>
-        <label class="inline-block mb1">评论*</label>
-        <textarea name="html_text" rows="4" class="block w100"></textarea>
-      </p>
-      <div class="clearfix">
-        <p class="float--left w50 border-box" style="padding-right:5px;">
-          <label class="inline-block mb1">昵称*</label>
-          <input type="text" name="owner_name" class="block w100">
-        </p>
-        <p class="float--left w50 border-box" style="padding-left:5px;">
-          <label class="inline-block mb1">邮箱*</label>
-          <input type="email" name="owner_email" class="block w100">
-        </p>
-      </div>
-      <p>
-        <label class="inline-block mb1">网址</label>
-        <input type="text" name="owner_website" class="block w100">
-      </p>
-      <p class="text-right"><button id="submitCommentBtn">发表评论</button></p>
-    </form>
-    <div class="comments">
-      <!-- render comments here -->
-    </div></script><script src="/js/talking.dev.js"></script><script>window.hexoThemeConfig={comment_sys_api:"https://www.sondge.club/tatwd/api/comments"}</script><script src="/js/post.js"></script></div></div></div></div></body></html>
+<span class="token keyword">return</span> count<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>从这个例子可以看出，Lua 脚本在此时扮演的角色实际上等同于一个“函数”，对这段脚本的执行就相当于在执行一个“函数”，所不同于一般函数的是 Redis 保证其执行具有了原子性。</p><p>但需要注意的是，尽量不要在脚本中执行大量耗时的操作（如 <code>keys *</code>），否则可能会对其他 client 造成一定影响。</p><h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol><li><a target="_blank" rel="noopener" href="https://redis.io/commands/eval">Redis Lua scripting</a></li><li><a target="_blank" rel="noopener" href="https://redis.io/topics/transactions">Redis transactions</a></li><li><a target="_blank" rel="noopener" href="http://www.lua.org/manual/5.1/">Lua 5.1 Reference Manual</a></li></ol></div><script>document.querySelector(".post__content").addEventListener("click",function(e){var t=e.target,n=t.id;"H2"===t.nodeName&&n&&(location.hash="#"+n)})</script></div><hr style="border:1px dashed #eee"><div class="post--comment"></div></div></div></div></div></body></html>
