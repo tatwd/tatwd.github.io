@@ -268,13 +268,62 @@ int main(void)
 
 编译时，需要使用 `-lpthread` 进行链接。
 
+线程的有以下几个状态的转化：
+
+```txt
+          NEW
+           |
+           V
+   +---> READY ---+
+   |       ^      |
+   |       |      V
+WAITING <--+-- RUNNING
+                  |
+   :              V
+SUSPENDED       DEAD
+```
+
+## 协程
+
+协程是协作式多任务的，而线程典型是抢占式多任务的。这意味着协程提供并发性而非并行性。在协程之间的切换不需要涉及任何系统调用或任何阻塞调用。
+
+
 ## 套接字
 
-套接字是一种特殊的文件。为解决进程间的通讯而生。
+> A socket forms one end of a connection, and a connection is fully specified by a pair of sockets. -- [RFC33, p.6](https://www.rfc-editor.org/rfc/rfc33.html#page-6)
+
+套接字（Socket）是一种特殊的文件。为解决进程间的通讯而生。在 RFC33 中，套接字被定义由 3 部分组成：
+
+<!-- - a user number (24 bits)
+- a HOST number (8 bits)
+- AEN (8 bits) -->
+
+```txt
+       24                    8          8
++----------------------+-----------+----------+
+|  User Number         |           |          |
++----------------------+-----------+----------+
+                             |          |___AEN (another eight-bit number)
+                             |
+                             |___HOST number
+```
+
+一个套接字构成一个连接的一端，利用这三者的组合就能在网络中定位到对应设备上的进程，从而进行通讯。需要注意的是，这一组成定义是专门针对 [ARPA 网络](https://www.wanweibaike.com/wiki-ARPANET)而设计的。
+
+现代常见的套接字接口大多源自 [Berkeley 套接字](https://www.wanweibaike.com/wiki-Berkeley套接字)（Berkeley sockets）标准。它定义了一系列的[套接字 API 函数](https://www.wanweibaike.com/wiki-Berkeley套接字#套接字API函数)，利用这些函数，按照一定调用流程（如下图）即可实现进程间的简单通信。
 
 {% asset_img 4.png 图 5 %}
 
+调用 `scoket()` 函数返回的是一个套接字文件描述符。需要使用 `bind()` 给它关联一个套接字地址（socket address）才能实现一个合法而可用的套接字，也即一个套接字将由以下 3 个部分组成：
+
+- IP 地址
+- 端口
+- 协议
+
+这三者的组合在一台主机上是唯一的。
 
 ## 参考资料
 
-1. Blaise Barney, Lawrence Livermore National Laboratory. _[POSIX Threads Programming](https://computing.llnl.gov/tutorials/pthreads/)_
+1. [POSIX Threads Programming](https://computing.llnl.gov/tutorials/pthreads/)
+2. [RFC33: New HOST-HOST Protocol](https://www.rfc-editor.org/rfc/rfc33.html)
+3. [4.2BSD Networking Implementation Notes](https://digitalassets.lib.berkeley.edu/techreports/ucb/text/CSD-83-146.pdf)
