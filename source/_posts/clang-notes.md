@@ -268,7 +268,7 @@ int main(void)
 
 编译时，需要使用 `-lpthread` 进行链接。
 
-线程的有以下几个状态的转化：
+一个线程的典型生命周期（lifecycle）：
 
 ```txt
           NEW
