@@ -500,12 +500,48 @@ Hello, my pid is <span class="token number">0</span>.<span aria-hidden="true" cl
     <span class="token function">pthread_exit</span><span class="token punctuation">(</span><span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>编译时，需要使用 <code>-lpthread</code> 进行链接。</p>
-<h2 id="套接字"><a href="#套接字" class="headerlink" title="套接字"></a>套接字</h2><p>套接字是一种特殊的文件。为解决进程间的通讯而生。</p>
+<p>一个线程的典型生命周期（lifecycle）：</p>
+<pre class="line-numbers language-txt" data-language="txt"><code class="language-txt">          NEW
+           |
+           V
+   +---&gt; READY ---+
+   |       ^      |
+   |       |      V
+WAITING &lt;--+-- RUNNING
+                  |
+   :              V
+SUSPENDED       DEAD<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="协程"><a href="#协程" class="headerlink" title="协程"></a>协程</h2><p>协程是协作式多任务的，而线程典型是抢占式多任务的。这意味着协程提供并发性而非并行性。在协程之间的切换不需要涉及任何系统调用或任何阻塞调用。</p>
+<h2 id="套接字"><a href="#套接字" class="headerlink" title="套接字"></a>套接字</h2><blockquote>
+<p>A socket forms one end of a connection, and a connection is fully specified by a pair of sockets. – <a href="https://www.rfc-editor.org/rfc/rfc33.html#page-6">RFC33, p.6</a></p>
+</blockquote>
+<p>套接字（Socket）是一种特殊的文件。为解决进程间的通讯而生。在 RFC33 中，套接字被定义由 3 部分组成：</p>
+<!-- - a user number (24 bits)
+- a HOST number (8 bits)
+- AEN (8 bits) -->
+
+<pre class="line-numbers language-txt" data-language="txt"><code class="language-txt">       24                    8          8
++----------------------+-----------+----------+
+|  User Number         |           |          |
++----------------------+-----------+----------+
+                             |          |___AEN (another eight-bit number)
+                             |
+                             |___HOST number<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>一个套接字构成一个连接的一端，利用这三者的组合就能在网络中定位到对应设备上的进程，从而进行通讯。需要注意的是，这一组成定义是专门针对 <a href="https://www.wanweibaike.com/wiki-ARPANET">ARPA 网络</a>而设计的。</p>
+<p>现代常见的套接字接口大多源自 <a href="https://www.wanweibaike.com/wiki-Berkeley%E5%A5%97%E6%8E%A5%E5%AD%97">Berkeley 套接字</a>（Berkeley sockets）标准。它定义了一系列的<a href="https://www.wanweibaike.com/wiki-Berkeley%E5%A5%97%E6%8E%A5%E5%AD%97#%E5%A5%97%E6%8E%A5%E5%AD%97API%E5%87%BD%E6%95%B0">套接字 API 函数</a>，利用这些函数，按照一定调用流程（如下图）即可实现进程间的简单通信。</p>
 <img src="/2019/05/24/clang-notes/4.png" class="" title="图 5">
 
-
+<p>调用 <code>scoket()</code> 函数返回的是一个套接字文件描述符。需要使用 <code>bind()</code> 给它关联一个套接字地址（socket address）才能实现一个合法而可用的套接字，也即一个套接字将由以下 3 个部分组成：</p>
+<ul>
+<li>IP 地址</li>
+<li>端口</li>
+<li>协议</li>
+</ul>
+<p>这三者的组合在一台主机上是唯一的。</p>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
-<li>Blaise Barney, Lawrence Livermore National Laboratory. <em><a href="https://computing.llnl.gov/tutorials/pthreads/">POSIX Threads Programming</a></em></li>
+<li><a href="https://computing.llnl.gov/tutorials/pthreads/">POSIX Threads Programming</a></li>
+<li><a href="https://www.rfc-editor.org/rfc/rfc33.html">RFC33: New HOST-HOST Protocol</a></li>
+<li><a href="https://digitalassets.lib.berkeley.edu/techreports/ucb/text/CSD-83-146.pdf">4.2BSD Networking Implementation Notes</a></li>
 </ol>
 ]]></content>
   </entry>
