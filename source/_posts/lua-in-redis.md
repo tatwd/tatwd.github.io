@@ -77,3 +77,4 @@ struct redisServer {
 1. [Redis Lua scripting](https://redis.io/commands/eval)
 2. [Redis transactions](https://redis.io/topics/transactions)
 3. [Lua 5.1 Reference Manual](http://www.lua.org/manual/5.1/)
+4. [Redis 2.6 Source Code](https://github.com/redis/redis/tree/2.6)
