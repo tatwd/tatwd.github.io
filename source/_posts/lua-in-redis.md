@@ -40,9 +40,9 @@ return count
 
 ## EVAL 执行过程
 
-下面将使用 Redis 2.6 的源码对这一过程做解释。
+下面是 Redis 2.6 源码中 `redisServer` 结构体关于 LUA 脚本执行相关的属性：
 
-```c 2.6/reids/redis.h
+```c reids/2.6/src/redis.h
 struct redisServer {
   //...
   lua_State *lua; /* The Lua interpreter. We use just one for all clients */
@@ -61,6 +61,16 @@ struct redisServer {
   //...
 };
 ```
+
+一个 EVAL 指令（[`evalGenericCommand()`](https://github.com/redis/redis/blob/51943a78b0d2e6c7c4d0647ba1a60c33d3a1a4d9/src/scripting.c#L787)）的大致主要过程如下：
+
+1. 将客户端脚本生成对应的 Lua 函数
+2. 将客户端的脚本放入 `lua_scripts` 字典
+3. 执行生成的 Lua 函数
+
+如果脚本中执行了 `redis.call` 和 `redis.pcall`，则会启动一个 Redis “伪客户端”（fake client，即 `lua_client`）用于在 Lua 环境中执行 Redis 指令。
+
+字典 `lua_scripts` 主要是用来缓存已执行过的客户端输入的 Lua 脚本，下次执行时直接从中取出进行执行。它的 key 是计算脚本等得到的 SHA1 值。此外，它还用于 Redis 的主从复制时关于 EVALSHA 传递失败时转换成 EVAL 的问题。
 
 ## 参考资料
 
