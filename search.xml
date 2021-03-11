@@ -192,8 +192,8 @@
         <category>技术水文</category>
       </categories>
       <tags>
-        <tag>AJAX</tag>
         <tag>.NET</tag>
+        <tag>AJAX</tag>
       </tags>
   </entry>
   <entry>
@@ -548,16 +548,11 @@ SUSPENDED       DEAD<span aria-hidden="true" class="line-numbers-rows"><span></s
   <entry>
     <title>Lua 脚本在 Redis 中的应用</title>
     <url>/2021/03/04/lua-in-redis/</url>
-    <content><![CDATA[<p>Redis 从 2.6.0 开始便支持执行 Lua 5.1 脚本，使用的命令是 <a href="https://redis.io/commands/eval"><code>EVAL</code></a>。</p>
-<p>基本语法：</p>
-<pre class="line-numbers language-sh" data-language="sh"><code class="language-sh">EVAL 脚本代码 键个数 键1 [键2 ...] 参数1 [参数2 ...]<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>在 Lua 脚本中，使用全局数组变量 <code>KEYS</code> 访问键，<code>ARGV</code> 访问参数，这两个变量都是<strong>从数组下标 1 开始</strong>进行访问。另外，如果需要执行 Redis 的指令，可以通过以下两个函数做到：</p>
-<ul>
-<li><code>redis.call()</code></li>
-<li><code>redis.pcall()</code></li>
-</ul>
-<p>前者在执行发生错误时会抛给执行者，而后者不会。</p>
-<p>这个脚本的执行过程是一个<strong>事务操作</strong>，并且是 Redis 中一种更快速和高效的（simpler and faster）事务执行方式，它的效果相当于 <code>MULTI</code> + <code>EXEC</code>。这一特性的存在，让我们可以在一次指令执行中（一次通信）包含一系列可程序化的操作。在一定程度上，可以简化客户端代码及可能存在的并发问题。</p>
+    <content><![CDATA[<p>Redis 从 2.6 开始便支持执行 Lua 5.1 脚本，使用的命令是 <a href="https://redis.io/commands/eval"><code>EVAL</code></a>。</p>
+<p>在 Lua 脚本中，可以使用全局数组变量 <code>KEYS</code> 访问键，<code>ARGV</code> 访问参数（这两个变量都是<strong>从数组下标 1 开始</strong>进行访问）。另外，如果需要执行 Redis 的指令，可以通过函数 <code>redis.call()</code> 和 <code>redis.pcall()</code> 做到。</p>
+<!--前者在执行发生错误时会抛给执行者，而后者会捕获错误。-->
+
+<p>EVAL 执行过程是一个<strong>事务操作</strong>，并且是 Redis 中一种更快速和高效的（simpler and faster）事务执行方式，它的效果相当于 <code>MULTI</code> + <code>EXEC</code>。这一特性的存在，让我们可以在一次指令执行中（一次通信）包含一系列可程序化的操作。在一定程度上，可以简化客户端代码及可能存在的并发问题。</p>
 <p>例如，下面脚本实现的功能是对一个 key 进行计数并在首次缓存时设置过期时间，执行返回的结果是当前计数值：</p>
 <pre class="line-numbers language-lua" data-language="lua"><code class="language-lua"><span class="token keyword">local</span> key <span class="token operator">=</span> KEYS<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span>
 <span class="token keyword">local</span> seconds <span class="token operator">=</span> <span class="token function">tonumber</span><span class="token punctuation">(</span>ARGV<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
@@ -571,10 +566,38 @@ SUSPENDED       DEAD<span aria-hidden="true" class="line-numbers-rows"><span></s
 <span class="token keyword">return</span> count<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>从这个例子可以看出，Lua 脚本在此时扮演的角色实际上等同于一个“函数”，对这段脚本的执行就相当于在执行一个“函数”，所不同于一般函数的是 Redis 保证其执行具有了原子性。</p>
 <p>但需要注意的是，尽量不要在脚本中执行大量耗时的操作（如 <code>keys *</code>），否则可能会对其他 client 造成一定影响。</p>
+<p>那么，Redis 是如何执行 EVAL 的呢？</p>
+<h2 id="EVAL-执行过程"><a href="#EVAL-执行过程" class="headerlink" title="EVAL 执行过程"></a>EVAL 执行过程</h2><p>下面是 Redis 2.6 源码中 <code>redisServer</code> 结构体关于 LUA 脚本执行相关的属性：</p>
+<pre class="line-numbers language-c" data-language="c"><div class="caption"><span>reids/2.6/src/redis.h</span></div><code class="language-c"><span class="token keyword">struct</span> <span class="token class-name">redisServer</span> <span class="token punctuation">&#123;</span>
+  <span class="token comment">//...</span>
+  lua_State <span class="token operator">*</span>lua<span class="token punctuation">;</span> <span class="token comment">/* The Lua interpreter. We use just one for all clients */</span>
+  redisClient <span class="token operator">*</span>lua_client<span class="token punctuation">;</span>   <span class="token comment">/* The "fake client" to query Redis from Lua */</span>
+  redisClient <span class="token operator">*</span>lua_caller<span class="token punctuation">;</span>   <span class="token comment">/* The client running EVAL right now, or NULL */</span>
+  dict <span class="token operator">*</span>lua_scripts<span class="token punctuation">;</span>         <span class="token comment">/* A dictionary of SHA1 -> Lua scripts */</span>
+  <span class="token keyword">long</span> <span class="token keyword">long</span> lua_time_limit<span class="token punctuation">;</span>  <span class="token comment">/* Script timeout in seconds */</span>
+  <span class="token keyword">long</span> <span class="token keyword">long</span> lua_time_start<span class="token punctuation">;</span>  <span class="token comment">/* Start time of script */</span>
+  <span class="token keyword">int</span> lua_write_dirty<span class="token punctuation">;</span>  <span class="token comment">/* True if a write command was called during the
+                           execution of the current script. */</span>
+  <span class="token keyword">int</span> lua_random_dirty<span class="token punctuation">;</span> <span class="token comment">/* True if a random command was called during the
+                           execution of the current script. */</span>
+  <span class="token keyword">int</span> lua_timedout<span class="token punctuation">;</span>     <span class="token comment">/* True if we reached the time limit for script
+                           execution. */</span>
+  <span class="token keyword">int</span> lua_kill<span class="token punctuation">;</span>         <span class="token comment">/* Kill the script if true. */</span>
+  <span class="token comment">//...</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>一个 EVAL 指令（<a href="https://github.com/redis/redis/blob/51943a78b0d2e6c7c4d0647ba1a60c33d3a1a4d9/src/scripting.c#L787"><code>evalGenericCommand()</code></a>）的大致主要过程如下：</p>
+<ol>
+<li>将客户端脚本生成对应的 Lua 函数</li>
+<li>将客户端的脚本放入 <code>lua_scripts</code> 字典</li>
+<li>执行生成的 Lua 函数</li>
+</ol>
+<p>如果脚本中执行了 <code>redis.call</code> 和 <code>redis.pcall</code>，则会启动一个 Redis “伪客户端”（fake client，即 <code>lua_client</code>）用于在 Lua 环境中执行 Redis 指令。</p>
+<p>字典 <code>lua_scripts</code> 主要是用来缓存已执行过的客户端输入的 Lua 脚本，下次执行时直接从中取出进行执行。它的 key 是计算脚本等得到的 SHA1 值。此外，它还用于 Redis 的主从复制时关于 EVALSHA 传递失败时转换成 EVAL 的问题。</p>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
 <li><a href="https://redis.io/commands/eval">Redis Lua scripting</a></li>
 <li><a href="https://redis.io/topics/transactions">Redis transactions</a></li>
 <li><a href="http://www.lua.org/manual/5.1/">Lua 5.1 Reference Manual</a></li>
+<li><a href="https://github.com/redis/redis/tree/2.6">Redis 2.6 Source Code</a></li>
 </ol>
 ]]></content>
       <tags>
