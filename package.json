@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": "hexo clean && hexo server --debug",
+    "dev": "hexo clean && hexo server --debug --draft",
     "build": "hexo clean && hexo generate && gulp",
     "serve": "hexo server -s",
     "deploy": "hexo clean && hexo generate && gulp && hexo deploy"

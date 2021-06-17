@@ -10,3 +10,7 @@ public/
 .vscode/
 
 tmp/
+
+
+resume/
+resume.json
