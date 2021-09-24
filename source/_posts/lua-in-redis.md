@@ -1,8 +1,8 @@
 ---
 title: Lua 脚本在 Redis 中的应用
 tags:
-  - Redis
-  - Lua
+  - redis
+  - lua
 date: 2021-03-04 23:55:17
 ---
 

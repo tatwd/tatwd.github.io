@@ -1,10 +1,9 @@
 ---
-title: 原生 AJAX 技术在 .NET 环境中的应用
+title: 原生 AJAX 技术在 .NET 中的应用
 date: 2018-02-01 17:38:02
 categories: 技术水文
 tags:
-  - AJAX
-  - .NET
+  - front-end
 ---
 
 这学期首次接触 .NET 开发，个中遇到了许多的问题。其中，以原生 AJAX 异步请求数据的相关问题最是让我困扰。所以，利用空闲时间好好研究了一下。

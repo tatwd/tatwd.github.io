@@ -1,11 +1,9 @@
 ---
-title: 利用 Hexo 框架在 GitHub 上搭建静态个人博客网站
+title: Hexo 博客搭建简易指南
 date: 2017-06-14 19:18:31
 categories: 建站笔记
 tags:
-  - Hexo
-  - Blog
-  - GitHub
+  - guide
 ---
 本文是我建立这个博客的一些笔记。目的有三：一防忘记，二供参考，三作开篇。
 
